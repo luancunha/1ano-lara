@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Story Script&display=swap');
+@import "tailwindcss";
+
+.font-title {
+  font-family: "Story Script", cursive;
+}
+
+.font-body {
+  font-family: "Fredoka", sans-serif;
+}
+
+@theme {  
+  --color-apple-red: #e63946;
+  --color-snow-blue: #a8dadc;
+  --color-dwarf-yellow: #f1faee;
+  --color-royal-gold: #ffb703;
+  --color-soft-cream: #fdfcf0;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-soft-cream text-slate-800 font-sans overflow-x-hidden;
+  }
+}
+
+.glass {
+  @apply bg-white/30 backdrop-blur-md border border-white/20;
+}
+
+.particle {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Hide scrollbar for gallery */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

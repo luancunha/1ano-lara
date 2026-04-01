@@ -1,19 +1,46 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, Send } from 'lucide-react';
+import { Heart } from 'lucide-react';
+
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 export const RSVPForm = () => {
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
-  const [formData, setFormData] = useState({ name: '', guests: '1' });
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    guests: '1',
+  });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.name) return;
 
-    setStatus('submitting');
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus('success');
+    try {
+      setStatus('submitting');
+      setErrorMessage('');
+
+      const response = await fetch('https://formspree.io/f/mjgpolll', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          nome: formData.name,
+          quantidade: formData.guests,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', guests: '1' });
+      } else {
+        throw new Error('Erro ao enviar formulário');
+      }
+    } catch (error) {
+      setStatus('error');
+      setErrorMessage('Não foi possível enviar. Tente novamente.');
+    }
   };
 
   return (
@@ -30,39 +57,43 @@ export const RSVPForm = () => {
               <div className="w-16 h-16 bg-apple-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="text-apple-red fill-apple-red" size={32} />
               </div>
-              <h3 className="text-2xl font-body text-apple-red mb-2">✨ Presença confirmada!</h3>
+              <h3 className="text-2xl font-body text-apple-red mb-2">
+                ✨ Presença confirmada!
+              </h3>
               <p className="text-slate-600">Estamos ansiosos por você! 💖</p>
             </motion.div>
           ) : (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <h3 className="text-center font-body text-4xl text-apple-red mb-8">Confirmar Presença</h3>
+            <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <h3 className="text-center font-body text-4xl text-apple-red mb-8">
+                Confirmar Presença
+              </h3>
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-body text-slate-500 uppercase tracking-wider mb-1 ml-2">
+                  <label className="block text-xs text-slate-500 mb-1 ml-2">
                     Nome Completo
                   </label>
                   <input
                     required
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Seu nome aqui..."
-                    className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-apple-red/20 transition-all shadow-sm"
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    className="w-full px-6 py-4 rounded-2xl border"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-body text-slate-500 uppercase tracking-wider mb-1 ml-2">
+                  <label className="block text-xs text-slate-500 mb-1 ml-2">
                     Quantidade de Pessoas
                   </label>
                   <select
                     value={formData.guests}
-                    onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                    className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-apple-red/20 transition-all shadow-sm appearance-none"
+                    onChange={(e) =>
+                      setFormData({ ...formData, guests: e.target.value })
+                    }
+                    className="w-full px-6 py-4 rounded-2xl border"
                   >
                     {[1, 2, 3, 4, 5].map((n) => (
                       <option key={n} value={n}>
@@ -71,17 +102,21 @@ export const RSVPForm = () => {
                     ))}
                   </select>
                 </div>
+
+                {status === 'error' && (
+                  <p className="text-red-500 text-sm">{errorMessage}</p>
+                )}
+
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  type="submit"
                   disabled={status === 'submitting'}
-                  className="w-full py-4 bg-apple-red text-white rounded-2xl font-semibold shadow-lg shadow-apple-red/30 flex items-center justify-center gap-2 disabled:opacity-70"
+                  className="w-full py-4 bg-apple-red text-white rounded-2xl flex justify-center items-center gap-2"
                 >
                   {status === 'submitting' ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <>
-                      Confirmar presença <Heart size={18} className="fill-white" />
+                      Confirmar presença <Heart size={18} />
                     </>
                   )}
                 </motion.button>

@@ -54,7 +54,7 @@ export default function App() {
       {/* Hero Section */}
       <section className="relative min-h-screen w-full flex flex-col items-center justify-center pt-20 px-6 text-center overflow-hidden">
         <div
-          className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+          className="absolute inset-0 bg-center bg-contain bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-soft-cream/70 via-white/55 to-soft-cream/90" />
@@ -64,12 +64,11 @@ export default function App() {
           animate="visible"
           className="z-10"
         >
-          <motion.div 
-            variants={itemVariants}
-            className="mb-4 inline-block p-4 bg-white/40 rounded-full glass"
-          >
-            <Apple className="text-apple-red fill-apple-red animate-pulse" size={48} />
-          </motion.div>
+
+          <br />
+          <br />
+          <br />
+          <br />
           
           <motion.h1 
             variants={itemVariants}
@@ -82,7 +81,8 @@ export default function App() {
             variants={itemVariants}
             className="text-body text-lg md:text-xl text-slate-600 max-w-lg mx-auto mb-10 leading-relaxed"
           >
-            Venha celebrar esse dia especial com a gente!
+            Venha celebrar esse dia especial 
+            <br /> com a gente!
           </motion.p>
 
           <motion.a

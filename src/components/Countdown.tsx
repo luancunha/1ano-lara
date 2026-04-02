@@ -32,7 +32,7 @@ export const Countdown = () => {
   }, []);
 
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center justify-center p-3 glass rounded-2xl min-w-[70px]">
+    <div className="flex flex-col items-center justify-center py-3 glass rounded-2xl min-w-[70px]">
       <motion.span
         key={value}
         initial={{ y: 10, opacity: 0 }}
@@ -51,8 +51,11 @@ export const Countdown = () => {
   return (
     <div className="flex gap-2 justify-center items-center py-8">
       <TimeUnit value={timeLeft.days} label="Dias" />
+      <span className="text-3xl font-body font-semibold text-apple-red/70">:</span>
       <TimeUnit value={timeLeft.hours} label="Horas" />
+      <span className="text-3xl font-body font-semibold text-apple-red/70">:</span>
       <TimeUnit value={timeLeft.minutes} label="Minutos" />
+      <span className="text-3xl font-body font-semibold text-apple-red/70">:</span>
       <TimeUnit value={timeLeft.seconds} label="Segundos" />
     </div>
   );

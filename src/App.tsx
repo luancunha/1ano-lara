@@ -40,16 +40,6 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      {/* Fixed Header */}
-      <header className="text-body fixed top-0 left-0 w-full glass py-4 px-6 flex justify-center items-center">
-        <motion.h2 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="font-display text-2xl text-apple-red"
-        >
-        </motion.h2>
-      </header>
-
       {/* Hero Section */}
       <section className="relative min-h-screen w-full flex flex-col items-center justify-center pt-20 px-6 text-center overflow-hidden">
         <div

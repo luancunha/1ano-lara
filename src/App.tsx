@@ -57,7 +57,7 @@ export default function App() {
           className="absolute inset-0 bg-center bg-contain bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-soft-cream/70 via-white/55 to-soft-cream/90" />
+        <div className="absolute inset-0 from-soft-cream/70 via-white/55 to-soft-cream/90" />
         <motion.div
           variants={containerVariants}
           initial="hidden"

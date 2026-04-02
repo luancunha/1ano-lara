@@ -41,13 +41,12 @@ export default function App() {
       />
 
       {/* Fixed Header */}
-      <header className="text-body fixed top-0 left-0 w-full z-50 glass py-4 px-6 flex justify-center items-center">
+      <header className="text-body fixed top-0 left-0 w-full glass py-4 px-6 flex justify-center items-center">
         <motion.h2 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-display text-2xl text-apple-red"
         >
-          Lara faz 1 aninho 🎉
         </motion.h2>
       </header>
 
@@ -164,13 +163,13 @@ export default function App() {
               <MapPin size={32} />
             </div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Local</p>
-            <p className="text-xl font-semibold text-slate-800 mb-6">Buffet Mágico Encantado<br/><span className="text-sm font-normal text-slate-500">Rua das Flores, 123 - São Paulo</span></p>
+            <p className="text-xl font-semibold text-slate-800 mb-3">Casa Bên<br/><span className="text-sm font-normal text-slate-500">Rua Mestre Silvano, 2080<br/>Eldorado, Porteirinha/MG</span></p>
             <motion.a
-              href="https://maps.google.com"
+              href="https://maps.app.goo.gl/3UGe4fNgCYNp6eNR9"
               target="_blank"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full py-4 glass rounded-2xl text-apple-red font-semibold flex items-center justify-center gap-2"
+              className="w-full py-3 glass rounded-2xl text-apple-red font-semibold flex items-center justify-center gap-2"
             >
               Abrir no Google Maps <MapPin size={18} />
             </motion.a>

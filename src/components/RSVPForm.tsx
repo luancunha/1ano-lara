@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart } from 'lucide-react';
 
@@ -9,8 +9,25 @@ export const RSVPForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     name: '',
-    guests: '1',
+    adults: '1',
+    children: '0',
   });
+
+  useEffect(() => {
+    if (status === 'success') {
+      const mensagem = encodeURIComponent(
+        `Olá! Acabei de confirmar presença.\n\nNome: ${formData.name}\nAdultos: ${formData.adults}\nCrianças (até 10 anos): ${formData.children}`
+      );
+
+      const numero = '5538992108923'; // troque pelo seu número com DDI + DDD
+
+      const timer = setTimeout(() => {
+        window.open(`https://wa.me/${numero}?text=${mensagem}`, '_blank');
+      }, 1500); // espera a mensagem de confirmação aparecer antes de abrir o WhatsApp
+
+      return () => clearTimeout(timer);
+    }
+  }, [status, formData]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,16 +44,17 @@ export const RSVPForm = () => {
         },
         body: JSON.stringify({
           nome: formData.name,
-          quantidade: formData.guests,
+          adultos: formData.adults,
+          criancas: formData.children,
+          _subject: 'Novo RSVP 🎉',
         }),
       });
 
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ name: '', guests: '1' });
-      } else {
+      if (!response.ok) {
         throw new Error('Erro ao enviar formulário');
       }
+
+      setStatus('success');
     } catch (error) {
       setStatus('error');
       setErrorMessage('Não foi possível enviar. Tente novamente.');
@@ -60,7 +78,9 @@ export const RSVPForm = () => {
               <h3 className="text-2xl font-body text-apple-red mb-2">
                 ✨ Presença confirmada!
               </h3>
-              <p className="text-slate-600">Estamos ansiosos por você! 💖</p>
+              <p className="text-slate-600">
+                Estamos ansiosos por você! 💖
+              </p>
             </motion.div>
           ) : (
             <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -86,18 +106,37 @@ export const RSVPForm = () => {
 
                 <div>
                   <label className="block text-xs text-slate-500 mb-1 ml-2">
-                    Quantidade de Pessoas
+                    Quantidade de Adultos
                   </label>
                   <select
-                    value={formData.guests}
+                    value={formData.adults}
                     onChange={(e) =>
-                      setFormData({ ...formData, guests: e.target.value })
+                      setFormData({ ...formData, adults: e.target.value })
                     }
                     className="w-full px-6 py-4 rounded-2xl border"
                   >
                     {[1, 2, 3, 4, 5].map((n) => (
                       <option key={n} value={n}>
-                        {n} {n === 1 ? 'Pessoa' : 'Pessoas'}
+                        {n} {n === 1 ? 'Adulto' : 'Adultos'}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1 ml-2">
+                    Quantidade de Crianças (até 10 anos)
+                  </label>
+                  <select
+                    value={formData.children}
+                    onChange={(e) =>
+                      setFormData({ ...formData, children: e.target.value })
+                    }
+                    className="w-full px-6 py-4 rounded-2xl border"
+                  >
+                    {[0, 1, 2, 3, 4, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n} {n === 1 ? 'Criança' : 'Crianças'}
                       </option>
                     ))}
                   </select>

@@ -4,6 +4,7 @@ import { MagicParticles } from './components/MagicParticles';
 import { MusicPlayer } from './components/MusicPlayer';
 import { Countdown } from './components/Countdown';
 import { RSVPForm } from './components/RSVPForm';
+import heroImage from '../imagem/hero.png';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -52,6 +53,11 @@ export default function App() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen w-full flex flex-col items-center justify-center pt-20 px-6 text-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-soft-cream/70 via-white/55 to-soft-cream/90" />
         <motion.div
           variants={containerVariants}
           initial="hidden"

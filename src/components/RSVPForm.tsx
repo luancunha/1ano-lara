@@ -36,7 +36,7 @@ export const RSVPForm = () => {
       setStatus('submitting');
       setErrorMessage('');
 
-      const response = await fetch('https://formspree.io/f/mjgpolll', {
+      const response = await fetch('https://formspree.io/f/mzdklogn', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
